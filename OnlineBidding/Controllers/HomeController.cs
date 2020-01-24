@@ -8,7 +8,6 @@ namespace OnlineBidding.Controllers
 {
     public class HomeController : Controller
     {
-        private 
         public ActionResult Index()
         {
             return View();
@@ -17,6 +16,11 @@ namespace OnlineBidding.Controllers
         public ActionResult List()
         {
             return View();
+        }
+
+        public ActionResult Create(AuctionViewModel model)
+        {
+
         }
     }
 }

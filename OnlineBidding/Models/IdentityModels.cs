@@ -1,8 +1,10 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using OnlineBidding.Models.Entities;
 
 namespace OnlineBidding.Models
 {
@@ -16,6 +18,8 @@ namespace OnlineBidding.Models
             // Add custom user claims here
             return userIdentity;
         }
+
+        public ICollection<Auction> Auctions { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -29,5 +33,7 @@ namespace OnlineBidding.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<Auction> Auctions { get; set; }
     }
 }
