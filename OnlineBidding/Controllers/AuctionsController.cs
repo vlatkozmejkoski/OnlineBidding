@@ -71,6 +71,13 @@ namespace OnlineBidding.Controllers
             return View(new BidModel());
         }
 
+        public ActionResult MyAuctions()
+        {
+            var userId = Guid.Parse(User.Identity.GetUserId());
+            var viewModel = db.Auctions.Where(x => x.UserId == userId).ToList();
+            return View(viewModel);
+        }
+
         // GET: Auctions/Create
         public ActionResult Create()
         {
@@ -102,12 +109,12 @@ namespace OnlineBidding.Controllers
                     StartDate = auction.StartDate,
                     StartingPrice = auction.StartingPrice,
                     ImagePath = result.Uri.ToString(),
-                    UserId = Guid.NewGuid()
+                    UserId = Guid.Parse(User.Identity.GetUserId())
                 };
 
                 db.Auctions.Add(entity);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("MyAuctions");
             }
 
             return View(auction);
@@ -133,8 +140,14 @@ namespace OnlineBidding.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Name,Description,StartingPrice,StartDate,EndDate,UserId")] Auction auction)
+        public ActionResult Edit([Bind(Include = "Id,Name,Description,StartingPrice,StartDate,EndDate")] Auction auction)
         {
+            var anyBids = db.Biddings.Any(x => x.AuctionId == auction.Id);
+            if (anyBids)
+            {
+                ModelState.AddModelError("","The auction has at least 1 bid and cannot be edited.");
+            }
+
             if (ModelState.IsValid)
             {
                 db.Entry(auction).State = EntityState.Modified;

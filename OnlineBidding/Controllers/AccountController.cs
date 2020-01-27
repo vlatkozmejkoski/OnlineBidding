@@ -447,7 +447,7 @@ namespace OnlineBidding.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Auctions");
         }
 
         internal class ChallengeResult : HttpUnauthorizedResult

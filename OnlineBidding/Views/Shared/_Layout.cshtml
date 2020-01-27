@@ -25,6 +25,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" href="@Url.Action("Create", "Auctions")">Add auction</a>
                         </li>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("MyAuctions", "Auctions")">My auctions</a>
+                            </li>
+                        }
                     </ul>
                 </div>
                 @Html.Partial("_LoginPartial")
