@@ -14,6 +14,8 @@ namespace OnlineBidding.Models.Entities
         public float StartingPrice { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public string ImagePath { get; set; }
+        public string Category { get; set; }
         
         [JsonIgnore]
         public Guid UserId { get; set; }

@@ -20,6 +20,7 @@ namespace OnlineBidding.Models
         }
 
         public ICollection<Auction> Auctions { get; set; }
+        public ICollection<Bidding> Biddings { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
@@ -35,5 +36,6 @@ namespace OnlineBidding.Models
         }
 
         public DbSet<Auction> Auctions { get; set; }
+        public DbSet<Bidding> Biddings { get; set; }
     }
 }
