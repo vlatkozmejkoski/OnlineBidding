@@ -46,7 +46,7 @@ namespace OnlineBidding.Controllers
             {
                 return HttpNotFound();
             }
-            var auctionBids = db.Biddings.Where(x => x.AuctionId == auction.Id);
+            var auctionBids = db.Biddings.Where(x => x.AuctionId == auction.Id).ToList();
             var viewModel = new AuctionDetailsViewModel()
             {
                 Id = auction.Id,
@@ -62,7 +62,7 @@ namespace OnlineBidding.Controllers
             {
                 viewModel.NumberOfBidders = auctionBids.GroupBy(x => x.UserId).Count();
                 viewModel.HighestBid = auctionBids.Max(x => x.BidPrice);
-                viewModel.UserBid = auctionBids.FirstOrDefault(x => x.UserId == userId).BidPrice;
+                viewModel.UserBid = auctionBids.FirstOrDefault(x => x.UserId == userId)?.BidPrice ?? 0;
             }
             ViewData["AuctionDetails"] = viewModel;
             ViewData["UserId"] = userId;
@@ -170,7 +170,7 @@ namespace OnlineBidding.Controllers
                 BidPrice = model.BidPrice
             };
 
-            var existingBid = db.Biddings.FirstOrDefault(x => x.UserId == userId);
+            var existingBid = db.Biddings.FirstOrDefault(x => x.UserId == userId && x.AuctionId == model.AuctionId);
 
             if(existingBid != default)
             {
@@ -184,7 +184,7 @@ namespace OnlineBidding.Controllers
 
             db.SaveChanges();
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Details", new { id = model.AuctionId });
         }
 
         // GET: Auctions/Delete/5
