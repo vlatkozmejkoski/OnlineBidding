@@ -30,7 +30,7 @@ namespace OnlineBidding.Controllers
         // GET: Auctions
         public ActionResult Index()
         {
-            return View(db.Auctions.ToList());
+            return View(db.Auctions.OrderByDescending(x => x.EndDate).ToList());
         }
 
         // GET: Auctions/Details/5
